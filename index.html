@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CaptureID - Captura e identificação de imagens.">
+
+    <title>CaptureID | Câmera Inteligente</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="#">
+            <span class="brand-icon">C</span>
+            <span>Capture<span class="brand-highlight">ID</span></span>
+        </a>
+
+        <span class="topbar-label">
+            <span class="status-dot"></span>
+            ESTÚDIO DE CAPTURA
+        </span>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <span class="eyebrow">FOTOGRAFIA DIGITAL</span>
+            <h1>Sua imagem.<br><span>Sua identificação.</span></h1>
+            <p>
+                Capture momentos, aplique efeitos e registre informações
+                diretamente na fotografia.
+            </p>
+        </section>
+
+        <section class="workspace">
+            <div class="panel camera-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-number">01 / CAPTURA</span>
+                        <h2>Câmera ao vivo</h2>
+                    </div>
+                    <span id="cameraStatus" class="status-badge offline">
+                        <span class="status-dot"></span>
+                        Desligada
+                    </span>
+                </div>
+
+                <div class="camera-frame">
+                    <video id="video" autoplay playsinline muted></video>
+
+                    <div id="cameraPlaceholder" class="camera-placeholder">
+                        <div class="camera-symbol">📷</div>
+                        <h3>Sua câmera está desligada</h3>
+                        <p>Ligue a câmera para começar a capturar imagens.</p>
+                    </div>
+
+                    <div class="viewfinder viewfinder-tl"></div>
+                    <div class="viewfinder viewfinder-tr"></div>
+                    <div class="viewfinder viewfinder-bl"></div>
+                    <div class="viewfinder viewfinder-br"></div>
+
+                    <span class="live-label">
+                        <span class="status-dot"></span>
+                        LIVE
+                    </span>
+                </div>
+
+                <div id="cameraMessage" class="message" role="status" aria-live="polite">
+                    Clique em “Ligar câmera” para começar.
+                </div>
+
+                <div class="camera-controls">
+                    <button id="toggleCamera" class="button button-primary">
+                        <span id="cameraButtonIcon">▶</span>
+                        <span id="cameraButtonText">Ligar câmera</span>
+                    </button>
+
+                    <button id="captureButton" class="button button-capture" disabled>
+                        <span class="shutter-icon"></span>
+                        Capturar foto
+                    </button>
+                </div>
+
+                <p class="privacy-note">
+                    🔒 A imagem é processada diretamente no seu navegador.
+                </p>
+            </div>
+
+            <div class="panel settings-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="section-number">02 / PERSONALIZAÇÃO</span>
+                        <h2>Identificação</h2>
+                    </div>
+                    <span class="step-icon">✎</span>
+                </div>
+
+                <div class="field-group">
+                    <label for="identification">Nome ou identificação</label>
+                    <input
+                        type="text"
+                        id="identification"
+                        maxlength="60"
+                        placeholder="Ex.: Estella Almeida"
+                        autocomplete="name"
+                    >
+                    <small>Essa informação será gravada na fotografia.</small>
+                </div>
+
+                <div class="field-group">
+                    <label for="effectSelect">Efeito visual</label>
+                    <select id="effectSelect">
+                        <option value="normal">Original</option>
+                        <option value="grayscale">Preto e branco</option>
+                        <option value="sepia">Sépia vintage</option>
+                        <option value="contrast">Alto contraste</option>
+                        <option value="brightness">Brilho aumentado</option>
+                    </select>
+                    <small>Escolha como sua imagem será processada.</small>
+                </div>
+
+                <div class="info-card">
+                    <span class="info-icon">◷</span>
+                    <div>
+                        <strong>Data e hora automáticas</strong>
+                        <p>O momento da captura será registrado na imagem.</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <span class="info-icon">▧</span>
+                    <div>
+                        <strong>Identificação incorporada</strong>
+                        <p>As informações farão parte dos pixels da imagem final.</p>
+                    </div>
+                </div>
+
+                <div class="instructions">
+                    <strong>Como funciona?</strong>
+                    <p>
+                        1. Ligue a câmera.<br>
+                        2. Informe sua identificação.<br>
+                        3. Escolha um efeito e capture a foto.<br>
+                        4. Visualize e baixe o resultado.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel result-panel">
+            <div class="panel-heading">
+                <div>
+                    <span class="section-number">03 / RESULTADO</span>
+                    <h2>Fotografia processada</h2>
+                </div>
+                <span class="result-tag">CANVAS</span>
+            </div>
+
+            <div id="emptyResult" class="empty-result">
+                <div class="empty-icon">▧</div>
+                <h3>Sua fotografia aparecerá aqui</h3>
+                <p>A imagem será processada com o efeito e os dados escolhidos.</p>
+            </div>
+
+            <div id="resultContainer" class="result-container" hidden>
+                <img id="resultImage" alt="Fotografia processada com identificação">
+                <div class="result-details">
+                    <div>
+                        <span class="detail-label">IDENTIFICAÇÃO</span>
+                        <strong id="resultName">—</strong>
+                    </div>
+                    <div>
+                        <span class="detail-label">DATA E HORA</span>
+                        <strong id="resultDate">—</strong>
+                    </div>
+                    <div>
+                        <span class="detail-label">EFEITO APLICADO</span>
+                        <strong id="resultEffect">—</strong>
+                    </div>
+                </div>
+
+                <button id="downloadButton" class="button button-primary download-button">
+                    ↓ Baixar fotografia
+                </button>
+            </div>
+        </section>
+
+        <footer>
+            <span>CAPTURE<span class="brand-highlight">ID</span></span>
+            <span>Projeto acadêmico · Programação Front-End</span>
+        </footer>
+    </main>
+
+    <!-- Canvas utilizado para processar a fotografia -->
+    <canvas id="canvas" hidden></canvas>
+</body>
+</html>
